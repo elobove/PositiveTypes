@@ -40,12 +40,13 @@ extree = N 1 (N 2 (L 7) (N 3 (L 5) (L 4))) (N 4 (N 6 (L 2) (L 9)) (L 8))
 result :: List
 result = breadthfirst extree
 
+infixr 9 <:
+
+(<:) :: Int → List → List
+(<:) = Cons
+
 exList :: List
-exList = Cons 1
-         (Cons 2
-          (Cons 4
-           (Cons 7
-            (Cons 3 (Cons 6 (Cons 8 (Cons 5 (Cons 4 (Cons 2 (Cons 9 Nil))))))))))
+exList = 1 <: 2 <: 4 <: 7 <: 3 <: 6 <: 8 <: 5 <: 4 <: 2 <: 9 <: Nil
 
 ok :: Bool
 ok = result == exList
