@@ -1,5 +1,5 @@
--- From: Lambda Calculus: Ralph Matthes (2000).
--- A Case for Inductive Defnitions. § 8.1.
+-- From: Ralph Matthes (2000). Lambda Calculus:  A Case
+-- for Inductive Defnitions. § 8.1.
 
 -- Creation date: 7 October 2014
 

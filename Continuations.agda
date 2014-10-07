@@ -1,3 +1,10 @@
+-- From: Ralph Matthes (2000). Lambda Calculus:  A Case
+-- for Inductive Defnitions. § 8.1.
+
+-- Tested with Agda 2.4.0
+
+-- Creation date: 7 October 2014
+
 {-# OPTIONS --no-termination-check  --no-positivity-check #-}
 module Continuations where
 
