@@ -10,53 +10,34 @@ module Continuations where
 -- Binary tree
 data Btree = L Int | N Int Btree Btree
 
--- List of Natural numbers
-data List = Nil | Cons Int List
-          deriving (Show, Eq)
-
 -- Continuations : non-strictly positive
-data Cont = D | C ((Cont → List) → List)
+data Cont = D | C ((Cont → [Int]) → [Int])
 
-apply :: Cont → (Cont → List) → List
+apply :: Cont → (Cont → [Int]) → [Int]
 apply D     g = g D
 apply (C f) g = f g
 
 breadth :: Btree → Cont → Cont
-breadth (L x)     k = C $ \g → Cons x (apply k g)
-breadth (N x s t) k = C $ \g → Cons x (apply k (g . breadth s . breadth t))
+breadth (L x)     k = C $ \g → x : (apply k g)
+breadth (N x s t) k = C $ \g → x : (apply k (g . breadth s . breadth t))
 
 -- Iteration on the data type Cont
-ex :: Cont → List
-ex D     = Nil
+ex :: Cont → [Int]
+ex D     = []
 ex (C f) = f ex
 
-breadthfirst :: Btree → List
+breadthfirst :: Btree → [Int]
 breadthfirst t = ex $ breadth t D
 
 -- Example
 extree :: Btree
 extree = N 1 (N 2 (L 7) (N 3 (L 5) (L 4))) (N 4 (N 6 (L 2) (L 9)) (L 8))
 
-result :: List
+result :: [Int]
 result = breadthfirst extree
 
-infixr 9 <:
-
-(<:) :: Int → List → List
-(<:) = Cons
-
-exList :: List
-exList = 1 <: 2 <: 4 <: 7 <: 3 <: 6 <: 8 <: 5 <: 4 <: 2 <: 9 <: Nil
+exList :: [Int]
+exList = [1,2,4,7,3,6,8,5,4,2,9]
 
 ok :: Bool
 ok = result == exList
-
-commonList :: List → [Int]
-commonList Nil         = []
-commonList (Cons x xs) = x : commonList xs
-
-prettyR :: [Int]
-prettyR  = commonList result
-
-prettyEx :: [Int]
-prettyEx = commonList exList
