@@ -33,15 +33,14 @@ data Cont : D → Set where
   C' : ∀ {f xs ys} → ((Cont f → ListN xs) → ListN ys) →
     Cont (cont lam)
 
--- cont : ((D → D) → D) → D
--- apply : ∀ {f xs} → Cont f → (Cont f → ListN xs) → ListN xs
--- apply D'     g = g D'
--- apply (C' k) g = k g
--- {-# ATP definition apply #-}
+apply : ∀ {f xs} → Cont f → (Cont f → ListN xs) → ListN xs
+apply D'     h = h D'
+apply (C' k) h = k h
+{-# ATP definition apply #-}
 
 -- breadth : ∀ {t f} → Btree t → Cont f → Cont f
--- breadth (Leaf x)     k = C' lam ( λ g → x ∷ (apply k g) )
--- breadth (Node x s t) k = C' lam ( λ g → x ∷ (apply k (g ∙ breadth s ∙ breadth t)))
+-- breadth (Leaf x)     k = C' ( λ g → x ∷ (apply k g) )
+-- breadth (Node x s t) k = C' ( λ g → x ∷ (apply k (g ∙ breadth s ∙ breadth t)))
 -- {-# ATP definition breadth #-}
 
 -- Example
